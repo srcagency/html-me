@@ -9,50 +9,9 @@ var htmlparser	= require('htmlparser2'),
 
 Promise.promisifyAll(fs);
 
-var html = module.exports = {
+var common = require('./common');
 
-	types: {
-		Text: 'text',
-		Directive: 'directive',
-		Comment: 'comment',
-		CDATA: 'cdata',
-		Tag: 'tag',
-	},
-
-	booleanAttribs: {
-		async: true,
-		autofocus: true,
-		autoplay: true,
-		checked: true,
-		controls: true,
-		defer: true,
-		disabled: true,
-		hidden: true,
-		loop: true,
-		multiple: true,
-		open: true,
-		readonly: true,
-		required: true,
-		scoped: true,
-		selected: true
-	},
-
-	emptyTags: {
-		area: true,
-		base: true,
-		basefont: true,
-		br: true,
-		col: true,
-		frame: true,
-		hr: true,
-		img: true,
-		input: true,
-		isindex: true,
-		link: true,
-		meta: true,
-		param: true,
-		embed: true
-	},
+var html = module.exports = extend({}, common, {
 
 	parse: function( stream, cb, options, parserOptions ) {
 		var handler = new htmlparser.DomHandler(options),
@@ -71,37 +30,43 @@ var html = module.exports = {
 		parser.write(htmlString);
 		parser.done();
 
-		return handler.dom;
+		if (options && options.single)
+			return handler.dom[0];
+
+		return this.create('fragment', { children: handler.dom });
 	},
 
 	parseFile: function( file, options, parserOptions, cb ) {
 		return fs.readFileAsync(file, 'utf8').then(function( markup ){
-			return html.parseString(markup, options, parserOptions);
+			return this.parseString(markup, options, parserOptions);
 		}).nodeify(cb);
 	},
 
 	parseFileSync: function( file, options, parserOptions ) {
-		return html.parseString(fs.readFileSync(file, 'utf8'), options, parserOptions);
+		return this.parseString(fs.readFileSync(file, 'utf8'), options, parserOptions);
 	},
 
 	getHtml: function( nodes ) {
-		return html.render(nodes);
+		return this.render(nodes);
 	},
 
 	render: function( nodes ) {
 		if (!Array.isArray(nodes))
 			nodes = [ nodes ];
 
-		return nodes.map(html.getOuter).join('');
+		return nodes.map(this.getOuter).join('');
 	},
 
 	getInner: function ( dom ) {
-		return dom.children ? dom.children.map(html.getOuter).join('') : '';
+		return dom.children ? dom.children.map(this.getOuter).join('') : '';
 	},
 
 	getOuter: function( dom ) {
 		if (dom.type === 'text')
 			return dom.data;
+
+		if (dom.render === false)
+			return;
 
 		if (dom.type === 'comment')
 			return '<!--' + dom.data + '-->';
@@ -110,10 +75,10 @@ var html = module.exports = {
 			return '<' + dom.data + '>';
 
 		if (dom.type === 'cdata')
-			return '<!CDATA ' + html.getInner(dom) + ']]>';
+			return '<!CDATA ' + this.getInner(dom) + ']]>';
 
-		if (dom.render === false)
-			return;
+		if (dom.type === 'fragment')
+			return dom.children.length === 0 ? '' : this.getInner(dom);
 
 		var ret = '<' + dom.name;
 		if (dom.attribs) {
@@ -125,54 +90,55 @@ var html = module.exports = {
 						if (!booleanAttribs[attr])
 							ret += '=""';
 					} else {
-						ret += '="' + html.escape(value) + '"';
+						ret += '="' + this.escape(value) + '"';
 					}
 				}
 			}
 		}
 
-		if (html.emptyTags[dom.name] && dom.children.length === 0)
+		if (this.emptyTags[dom.name] && dom.children.length === 0)
 			return ret + ' />';
 		else
-			return ret + '>' + html.getInner(dom) + '</' + dom.name + '>';
+			return ret + '>' + this.getInner(dom) + '</' + dom.name + '>';
 	},
 
-	text: function( node, value ) {
-		if (value === undefined)
-			return html.getText(node);
-		else
-			return html.setText(node, value);
+	getAttribute: function ( node, attr ) {
+		return node.attribs && node.attribs[attr] || null;
+	},
+
+	setAttribute: function ( node, attr, value ) {
+		if (!node.attribs)
+			node.attribs = {};
+
+		return node.attribs[attr] = value;
+	},
+
+	getValue: function( node ) {
+		return this.getAttribute(node, 'value');
+	},
+
+	setValue: function( node, value ) {
+		return this.setAttribute(node, 'value', value);
 	},
 
 	getText: function( node ) {
-		if (node.type === 'text') {
-			return node.data;
-		} else if (Array.isArray(node.children)) {
-			return node.children.map(getText).join('');
-		} else {
+		if (node.type === 'text')
+			return this.unescape(node.data);
+		else if (node.children)
+			return node.children.map(this.getText, this).join('');
+		else
 			return '';
-		}
 	},
 
 	setText: function( node, text ) {
-		if (node.type === 'text') {
-			node.data = html.escape(text);
-		} else if (Array.isArray(node.children)) {
-			node.children.forEach(function( node ){ html.setText(node, text); });
-		}
-		return node;
-	},
+		if (node.type === 'text')
+			node.data = this.escape(text);
+		else if (node.children && node.children.length)
+			node.children.forEach(function( node ){ this.setText(node, text); }, this);
+		else
+			node.children = [ this.create('text', { data: this.escape(text) }) ];
 
-	escapeCharacters: {
-		'&': '&amp;',
-		'<': '&lt;',
-		'>': '&gt;',
-		'"': '&quot;',
-		'\'': '&#039;',
-	},
-
-	escape: function( text ) {
-		return text.replace(/[&<>"']/g, function( text ){ return html.escapeCharacters[text]; });
+		return text;
 	},
 
 	splice: function( nodes, index, howMany, newNodes ) {
@@ -204,6 +170,13 @@ var html = module.exports = {
 			after.prev = newNodes[newNodes.length-1] || null;
 	},
 
+	firstChild: function( node ) {
+		return node.children[0];
+	},
+
+	lastChild: function( node ) {
+		return node.children[node.children.length - 1];
+	},
 
 	replace: domUtils.replaceElement,
 	append: domUtils.append,
@@ -218,7 +191,16 @@ var html = module.exports = {
 			node.data = '';
 	},
 
-	create: function( type, config ) {
+	_create: function( type, config ) {
+		if (!this.type[type]) {
+			if (!config)
+				config = { name: type };
+			else
+				config.name = type;
+
+			type = this.type.tag;
+		}
+
 		return extend({
 			type: type,
 			attribs: {},
@@ -227,7 +209,6 @@ var html = module.exports = {
 			prev: null,
 			parent: null,
 			data: {},
-			root: null
 		}, config);
 	},
 
@@ -236,4 +217,4 @@ var html = module.exports = {
 	selectorCompile: CSSselect.compile,
 	is: CSSselect.is,
 
-};
+});

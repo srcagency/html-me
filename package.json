@@ -4,6 +4,7 @@
 	"private": true,
 	"description": "HTML made easy is a collection of helpers to ease working with HTML markup in Javascript (w/o browser DOM)",
 	"main": "index.js",
+	"browser": "./browser.js",
 	"keywords": [
 		"html"
 	],
@@ -24,10 +25,10 @@
 	},
 	"license": "BSD-2-Clause",
 	"dependencies": {
-		"htmlparser2": "~3.4.0",
-		"bluebird": "~1.1.0",
-		"domutils": "~1.3.0",
-		"CSSselect": "~0.4.0",
+		"htmlparser2": "~3.7.2",
+		"bluebird": "~1.2.3",
+		"domutils": "~1.5.0",
+		"CSSselect": "~0.7.0",
 		"extend": "~1.2.1"
 	}
 }
