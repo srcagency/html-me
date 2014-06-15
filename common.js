@@ -110,6 +110,18 @@ var html = module.exports = {
 	getValue: notImplemented,
 	setValue: notImplemented,
 
+	// checked (special type of attribute)
+
+	checked: function( node, value ){
+		if (value === undefined)
+			return this.getChecked(node);
+		else
+			return this.setChecked(node, value);
+	},
+
+	getChecked: notImplemented,
+	setChecked: notImplemented,
+
 	// querying
 
 	findOne: notImplemented,

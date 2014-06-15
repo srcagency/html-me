@@ -147,6 +147,14 @@ var html = module.exports = extend({}, common, {
 		return node.value = value;
 	},
 
+	getChecked: function( node ){
+		return node.checked;
+	},
+
+	setChecked: function( node, value ){
+		return node.checked = !!value;
+	},
+
 	addEventListener: function( node, event, fn ) {
 		if (html.isNodes(node)) {
 			Array.prototype.forEach.call(node, function( node ){

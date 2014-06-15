@@ -128,6 +128,14 @@ var html = module.exports = extend({}, common, {
 		return this.setAttribute(node, 'value', value);
 	},
 
+	getChecked: function( node ){
+		return this.getAttribute(node, 'checked');
+	},
+
+	setChecked: function( node, value ){
+		return this.getAttribute(node, 'checked', !!value);
+	},
+
 	getText: function( node ) {
 		if (node.type === 'text')
 			return this.unescape(node.data);
