@@ -96,6 +96,10 @@ var html = module.exports = extend({}, common, {
 			return node.setAttribute(attr, value);
 	},
 
+	removeAttribute: function( node, attr ) {
+		return node.removeAttribute(attr);
+	},
+
 	addClass: function( node, className ) {
 		if (html.isNodes(node))
 			Array.prototype.forEach.call(node, function( node ){

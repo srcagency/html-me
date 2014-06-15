@@ -116,6 +116,10 @@ var html = module.exports = extend({}, common, {
 		return node.attribs[attr] = value;
 	},
 
+	removeAttribute: function ( node, attr ) {
+		return !node.attribs || delete node.attribs[attr];
+	},
+
 	getValue: function( node ) {
 		return this.getAttribute(node, 'value');
 	},
