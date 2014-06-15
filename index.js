@@ -30,8 +30,12 @@ var html = module.exports = extend({}, common, {
 		parser.write(htmlString);
 		parser.done();
 
-		if (options && options.single)
-			return handler.dom[0];
+		if (options) {
+			if (options.single)
+				return handler.dom[0];
+			else if (options.multiple)
+				return handler.dom;
+		}
 
 		return this.create('fragment', { children: handler.dom });
 	},

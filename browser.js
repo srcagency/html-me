@@ -174,8 +174,12 @@ var html = module.exports = extend({}, common, {
 
 		host.innerHTML = htmlString;
 
-		if (options && options.single)
-			return host.firstChild;
+		if (options) {
+			if (options.single)
+				return host.firstChild;
+			else if (options.multiple)
+				return host.childNodes;
+		}
 
 		var fragment = html.create('fragment');
 
