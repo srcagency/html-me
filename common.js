@@ -76,12 +76,8 @@ var html = module.exports = {
 
 	// attributes
 
-	attribute: function( node, attr, value ) {
-		if (typeof value === 'undefined')
-			return this.getAttribute(node, attr);
-		else
-			return this.setAttribute(node, attr, value);
-	},
+	attr: attribute,
+	attribute: attribute,
 
 	setAttribute: notImplemented,
 	getAttribute: notImplemented,
@@ -208,4 +204,11 @@ var html = module.exports = {
 
 function notImplemented () {
 	throw new Error('function not implemented in this version');
+}
+
+function attribute( node, attr, value ){
+	if (value === undefined)
+		return this.getAttribute(node, attr);
+	else
+		return this.setAttribute(node, attr, value);
 }
