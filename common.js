@@ -50,11 +50,11 @@ var html = module.exports = {
 
 	empty: notImplemented,
 
-	appendChildren: function ( node, childNodes ) {
+	appendChildren: function( node, childNodes ){
 		childNodes.forEach(this.appendChild.bind(this, node));
 	},
 
-	prependChildren: function ( node, childNodes ) {
+	prependChildren: function( node, childNodes ){
 		childNodes.forEach(this.prependChild.bind(this, node));
 	},
 
@@ -64,7 +64,7 @@ var html = module.exports = {
 
 	// text (special type of children)
 
-	text: function( node, value ) {
+	text: function( node, value ){
 		if (typeof value === 'undefined')
 			return this.getText(node);
 		else
@@ -82,7 +82,7 @@ var html = module.exports = {
 	setAttribute: notImplemented,
 	getAttribute: notImplemented,
 
-	setAttributes: function( node, attributes ) {
+	setAttributes: function( node, attributes ){
 		var attributeNames = Object.keys(attributes);
 
 		for (var i = attributeNames.length-1;i > -1;i--)
@@ -96,8 +96,8 @@ var html = module.exports = {
 
 	// value (special type of attribute)
 
-	value: function( node, value ) {
-		if (typeof value === 'undefined')
+	value: function( node, value ){
+		if (value === undefined)
 			return this.getValue(node);
 		else
 			return this.setValue(node, value);
@@ -128,7 +128,7 @@ var html = module.exports = {
 	// helpers
 
 	// determine whether nodes are traversable
-	isNodes: function( nodes ) {
+	isNodes: function( nodes ){
 		return Array.isArray(nodes);
 	},
 
@@ -186,14 +186,14 @@ var html = module.exports = {
 		'\'': '&#039;',
 	},
 
-	escape: function( text ) {
+	escape: function( text ){
 		var html = this;
 		return text.replace(/[&<>"']/g, function( text ){
 			return html.escapeCharacters[text];
 		});
 	},
 
-	unescape: function ( text ) {
+	unescape: function( text ){
 		for (var char in this.escapeCharacters)
 			text = text.replace(this.escapeCharacters[char], char);
 
@@ -202,7 +202,7 @@ var html = module.exports = {
 
 };
 
-function notImplemented () {
+function notImplemented(){
 	throw new Error('function not implemented in this version');
 }
 
