@@ -73,6 +73,10 @@ var html = module.exports = extend({}, common, {
 		return node.removeChild(childNode);
 	},
 
+	remove: function( node ){
+		return node.parentNode && node.parentNode.removeChild(node);
+	},
+
 	getText: function( node ) {
 		return node.textContent;
 	},
