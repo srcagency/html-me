@@ -90,7 +90,10 @@ var html = module.exports = extend({}, common, {
 	},
 
 	setAttribute: function( node, attr, value ) {
-		return node.setAttribute(attr, value);
+		if (!value && this.booleanAttribs[attr])
+			return this.removeAttribute(node, attr);
+		else
+			return node.setAttribute(attr, value);
 	},
 
 	addClass: function( node, className ) {

@@ -110,6 +110,9 @@ var html = module.exports = extend({}, common, {
 		if (!node.attribs)
 			node.attribs = {};
 
+		if (!value && this.booleanAttribs[attr])
+			return this.removeAttribute(node, attr);
+
 		return node.attribs[attr] = value;
 	},
 
