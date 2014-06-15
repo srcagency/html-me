@@ -232,4 +232,8 @@ var html = module.exports = extend({}, common, {
 	selectorCompile: CSSselect.compile,
 	is: CSSselect.is,
 
+	nodeType: function ( node ) {
+		return node.type;
+	},
+
 });

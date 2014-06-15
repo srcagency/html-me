@@ -209,4 +209,15 @@ var html = module.exports = extend({}, common, {
 		return Array.isArray(nodes) || nodes instanceof NodeList;
 	},
 
+	nodeType: function ( node ) {
+		return nodeTypeMap[node.nodeType] || this.type.tag;
+	},
+
 });
+
+var nodeTypeMap = {};
+
+nodeTypeMap[document.TEXT_NODE] = common.type.text;
+nodeTypeMap[document.COMMENT_NODE] = common.type.comment;
+nodeTypeMap[document.DOCUMENT_TYPE_NODE] = common.type.directive;
+nodeTypeMap[document.DOCUMENT_FRAGMENT_NODE] = common.type.fragment;

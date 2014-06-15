@@ -136,6 +136,8 @@ var html = module.exports = {
 		return Array.isArray(nodes);
 	},
 
+	nodeType: notImplemented,
+
 	type: {
 		text: 'text',
 		comment: 'comment',
