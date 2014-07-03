@@ -51,11 +51,11 @@ var html = module.exports = {
 	empty: notImplemented,
 
 	appendChildren: function( node, childNodes ){
-		childNodes.forEach(this.appendChild.bind(this, node));
+		Array.prototype.forEach.call(childNodes, this.appendChild.bind(this, node));
 	},
 
 	prependChildren: function( node, childNodes ){
-		childNodes.forEach(this.prependChild.bind(this, node));
+		Array.prototype.forEach.call(childNodes, this.prependChild.bind(this, node));
 	},
 
 	prependChild: notImplemented,
