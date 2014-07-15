@@ -33,6 +33,8 @@ var html = module.exports = {
 
 	// relationship to parent
 
+	parent: notImplemented,
+
 	append: notImplemented,
 	prepend: notImplemented,
 

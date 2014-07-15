@@ -56,6 +56,10 @@ var html = module.exports = extend({}, common, {
 			node.removeChild(node.childNodes[i]);
 	},
 
+	parent: function( node ){
+		return node.parentNode;
+	},
+
 	prependChild: function( node, childNode ) {
 		var firstChild = html.firstChild(node);
 

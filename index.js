@@ -197,6 +197,10 @@ var html = module.exports = extend({}, common, {
 		return node.children[node.children.length - 1];
 	},
 
+	parent: function( node ){
+		return node.parent;
+	},
+
 	replace: domUtils.replaceElement,
 	append: domUtils.append,
 	appendChild: domUtils.appendChild,
