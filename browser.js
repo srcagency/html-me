@@ -66,7 +66,7 @@ var html = module.exports = extend({}, common, {
 		if (firstChild)
 			return node.insertBefore(childNode, firstChild);
 
-		return node.appendChild(node, childNode);
+		return node.appendChild(childNode);
 	},
 
 	appendChild: function( node, childNode ) {
