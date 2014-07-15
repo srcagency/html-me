@@ -213,6 +213,10 @@ var html = module.exports = extend({}, common, {
 			return nodes.reduce(function( r, node ){ Array.prototype.push.apply(r, html.findAll(query, node)); }, []);
 	},
 
+	matches: function( node, selector ) {
+		return (node.matches || node.matchesSelector || node.msMatchesSelector || node.mozMatchesSelector || node.webkitMatchesSelector || node.oMatchesSelector).call(node, selector);
+	},
+
 	isNodes: function( nodes ) {
 		return Array.isArray(nodes) || nodes instanceof NodeList;
 	},

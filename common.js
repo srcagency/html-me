@@ -125,7 +125,8 @@ var html = module.exports = {
 	findOne: notImplemented,
 	findAll: notImplemented,
 	selectorCompile: notImplemented,
-	is: notImplemented,
+	matches: notImplemented,
+	is: function(){ return this.matches.call(this, arguments); },
 
 	// helpers
 

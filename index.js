@@ -238,7 +238,7 @@ var html = module.exports = extend({}, common, {
 	findOne: CSSselect.selectOne,
 	findAll: CSSselect.selectAll,
 	selectorCompile: CSSselect.compile,
-	is: CSSselect.is,
+	matches: CSSselect.is,
 
 	nodeType: function ( node ) {
 		return node.type;
