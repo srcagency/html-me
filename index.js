@@ -240,7 +240,7 @@ var html = module.exports = extend({}, common, {
 	selectorCompile: CSSselect.compile,
 	matches: CSSselect.is,
 
-	nodeType: function ( node ) {
+	typeOf: function ( node ) {
 		return node.type;
 	},
 

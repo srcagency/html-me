@@ -221,7 +221,7 @@ var html = module.exports = extend({}, common, {
 		return Array.isArray(nodes) || nodes instanceof NodeList;
 	},
 
-	nodeType: function ( node ) {
+	typeOf: function ( node ) {
 		return nodeTypeMap[node.nodeType] || this.type.tag;
 	},
 

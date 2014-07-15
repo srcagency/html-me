@@ -135,7 +135,8 @@ var html = module.exports = {
 		return Array.isArray(nodes);
 	},
 
-	nodeType: notImplemented,
+	nodeType: function( node ){ return this.typeOf(node); },
+	typeOf: notImplemented,
 
 	type: {
 		text: 'text',
