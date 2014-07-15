@@ -128,6 +128,13 @@ var html = module.exports = {
 	matches: notImplemented,
 	is: function(){ return this.matches.call(this, arguments); },
 
+	closest: function( node, selector, context ){
+		for (var cNode = node;cNode && cNode !== context;cNode = this.parent(cNode)){
+			if (this.matches(cNode, selector))
+				return cNode;
+		}
+	},
+
 	// helpers
 
 	// determine whether nodes are traversable
