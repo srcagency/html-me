@@ -225,6 +225,10 @@ var html = module.exports = extend({}, common, {
 		return nodeTypeMap[node.nodeType] || this.type.tag;
 	},
 
+	nameOf: function ( node ) {
+		return node.nodeName.toLowerCase();
+	},
+
 });
 
 var nodeTypeMap = {};

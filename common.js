@@ -137,6 +137,7 @@ var html = module.exports = {
 
 	nodeType: function( node ){ return this.typeOf(node); },
 	typeOf: notImplemented,
+	nameOf: notImplemented,
 
 	type: {
 		text: 'text',

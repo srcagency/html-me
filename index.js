@@ -244,4 +244,8 @@ var html = module.exports = extend({}, common, {
 		return node.type;
 	},
 
+	nameOf: function ( node ) {
+		return node.name.toLowerCase();
+	},
+
 });
