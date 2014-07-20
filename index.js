@@ -128,7 +128,7 @@ var html = module.exports = extend({}, common, {
 		return this.getAttribute(node, 'value');
 	},
 
-	setValue: function( node, value ) {
+	_setValue: function( node, value ) {
 		return this.setAttribute(node, 'value', value);
 	},
 

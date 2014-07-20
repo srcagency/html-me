@@ -1,5 +1,7 @@
 'use strict';
 
+var numpad = require('numpad');
+
 var html = module.exports = {
 
 	// create node with API
@@ -106,7 +108,19 @@ var html = module.exports = {
 	},
 
 	getValue: notImplemented,
-	setValue: notImplemented,
+	setValue: function( node, value ) {
+		if (value instanceof Date) {
+			var type = this.getAttribute(node, 'type');
+
+			if (type === 'date')
+				value = toHtmlDate(value);
+			else if (type === 'time')
+				value = toHtmlTime(value);
+		}
+
+		return node.value = value;
+	},
+	_setValue: notImplemented,
 
 	// checked (special type of attribute)
 
@@ -223,4 +237,19 @@ function attribute( node, attr, value ){
 		return this.getAttribute(node, attr);
 	else
 		return this.setAttribute(node, attr, value);
+}
+
+function pad2( num ){
+	return numpad(num, 2);
+}
+
+function toHtmlDate( date ){
+	return [ date.getFullYear(), date.getMonth() + 1, date.getDate() ]
+		.map(pad2)
+		.join('-');
+}
+function toHtmlTime( date ){
+	return [ date.getHours(), date.getMinutes() ]
+		.map(pad2)
+		.join(':');
 }

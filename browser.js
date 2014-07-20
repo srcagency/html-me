@@ -147,7 +147,7 @@ var html = module.exports = extend({}, common, {
 		return node.value;
 	},
 
-	setValue: function( node, value ) {
+	_setValue: function( node, value ) {
 		return node.value = value;
 	},
 
