@@ -2,7 +2,7 @@
 	"name": "html-me",
 	"version": "0.0.1",
 	"private": true,
-	"description": "HTML made easy is a collection of helpers to ease working with HTML markup in Javascript (w/o browser DOM)",
+	"description": "Work with HTML in node and the browser using the same API",
 	"main": "index.js",
 	"browser": "./browser.js",
 	"keywords": [
