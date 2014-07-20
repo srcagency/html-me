@@ -58,11 +58,11 @@ var html = module.exports = extend({}, common, {
 		if (!Array.isArray(nodes))
 			nodes = [ nodes ];
 
-		return nodes.map(this.getOuter).join('');
+		return nodes.map(this.getOuter, this).join('');
 	},
 
 	getInner: function ( dom ) {
-		return dom.children ? dom.children.map(this.getOuter).join('') : '';
+		return dom.children ? dom.children.map(this.getOuter, this).join('') : '';
 	},
 
 	getOuter: function( dom ) {
