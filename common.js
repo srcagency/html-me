@@ -134,6 +134,11 @@ var html = module.exports = {
 	getChecked: notImplemented,
 	setChecked: notImplemented,
 
+	// events
+
+	addEventListener: notImplemented,
+	removeEventListener: notImplemented,
+
 	// querying
 
 	findOne: notImplemented,

@@ -30,6 +30,7 @@
 		"domutils": "~1.5.0",
 		"CSSselect": "~0.7.0",
 		"extend": "~1.3.0",
-		"numpad": "~0.0.1"
+		"numpad": "~0.0.1",
+		"remove-value": "~1.0.0"
 	}
 }

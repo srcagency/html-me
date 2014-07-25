@@ -172,6 +172,19 @@ var html = module.exports = extend({}, common, {
 			node.addEventListener(event, fn);
 	},
 
+	removeEventListener: function( node, event, fn ) {
+		if (html.isNodes(node)) {
+			Array.prototype.forEach.call(node, function( node ){
+				html.removeEventListener(node, event, fn);
+			});
+		} else if (Array.isArray(event))
+			event.forEach(function( event ){
+				html.removeEventListener(node, event, fn);
+			});
+		else
+			node.removeEventListener(event, fn);
+	},
+
 	parseString: function( htmlString, options ) {
 		// fragments does not support innerHtml
 		var host = html.create('tag', { name: 'div' });

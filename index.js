@@ -5,7 +5,8 @@ var htmlparser	= require('htmlparser2'),
 	Promise		= require('bluebird'),
 	CSSselect	= require('CSSselect'),
 	fs			= require('fs'),
-	extend		= require('extend');
+	extend		= require('extend'),
+	removeValue	= require('remove-value');
 
 Promise.promisifyAll(fs);
 
@@ -233,6 +234,22 @@ var html = module.exports = extend({}, common, {
 			parent: null,
 			data: {},
 		}, config);
+	},
+
+	addEventListener: function( node, event, fn ) {
+		if (!node.listeners) {
+			node.listeners = {};
+			node.listeners[event] = [ fn ];
+		} else if (!node.listeners[event]) {
+			node.listeners[event] = [ fn ];
+		} else if (!~node.listeners[event].indexOf(fn)) {
+			node.listeners[event].push(fn);
+		}
+	},
+
+	removeEventListener: function( node, event, fn ) {
+		if (node.listeners && node.listeners[event])
+			removeValue(node.listeners[event], fn, 1);
 	},
 
 	findOne: CSSselect.selectOne,
