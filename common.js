@@ -28,8 +28,17 @@ var html = module.exports = {
 
 	// node(s) to HTML
 
-	render: notImplemented,		// render one or more nodes to HTML
-	getHtml: notImplemented,	// alias of render
+	render: function( nodes ) {
+		if (!Array.isArray(nodes))
+			nodes = [ nodes ];
+
+		return nodes.map(this.getOuter, this).join('');
+	},
+
+	getHtml: function( nodes ) {
+		return this.render(nodes);
+	},
+
 	getInner: notImplemented,	// get inner HTML of a single node
 	getOuter: notImplemented,	// get out HTML of a single node
 

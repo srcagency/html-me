@@ -51,17 +51,6 @@ var html = module.exports = extend({}, common, {
 		return this.parseString(fs.readFileSync(file, 'utf8'), options, parserOptions);
 	},
 
-	getHtml: function( nodes ) {
-		return this.render(nodes);
-	},
-
-	render: function( nodes ) {
-		if (!Array.isArray(nodes))
-			nodes = [ nodes ];
-
-		return nodes.map(this.getOuter, this).join('');
-	},
-
 	getInner: function ( dom ) {
 		return dom.children ? dom.children.map(this.getOuter, this).join('') : '';
 	},

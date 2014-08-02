@@ -29,6 +29,14 @@ var html = module.exports = extend({}, common, {
 		return node;
 	},
 
+	getInner: function( node ){
+		return node.innerHTML;
+	},
+
+	getOuter: function( node ){
+		return node.outerHTML;
+	},
+
 	replace: function( node, replaceWith ) {
 		if (!node.parentNode)
 			return;
