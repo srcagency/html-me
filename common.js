@@ -6,7 +6,7 @@ var html = module.exports = {
 
 	// create node with API
 
-	create: function( type, config ) {
+	create: function( type, config ){
 		if (!type)
 			return html._create('fragment');
 
@@ -28,14 +28,14 @@ var html = module.exports = {
 
 	// node(s) to HTML
 
-	render: function( nodes ) {
+	render: function( nodes ){
 		if (!Array.isArray(nodes))
 			nodes = [ nodes ];
 
 		return nodes.map(html.getOuter, html).join('');
 	},
 
-	getHtml: function( nodes ) {
+	getHtml: function( nodes ){
 		return html.render(nodes);
 	},
 
@@ -117,7 +117,7 @@ var html = module.exports = {
 	},
 
 	getValue: notImplemented,
-	setValue: function( node, value ) {
+	setValue: function( node, value ){
 		if (value instanceof Date) {
 			var type = html.getAttribute(node, 'type');
 
@@ -210,7 +210,7 @@ var html = module.exports = {
 		readonly: true,
 		required: true,
 		scoped: true,
-		selected: true
+		selected: true,
 	},
 
 	emptyTags: {
@@ -227,7 +227,7 @@ var html = module.exports = {
 		link: true,
 		meta: true,
 		param: true,
-		embed: true
+		embed: true,
 	},
 
 	escapeCharacters: {
@@ -273,6 +273,7 @@ function toHtmlDate( date ){
 		.map(pad2)
 		.join('-');
 }
+
 function toHtmlTime( date ){
 	return [ date.getHours(), date.getMinutes() ]
 		.map(pad2)

@@ -6,7 +6,7 @@ var common = require('./common');
 
 var html = module.exports = extend(common, {
 
-	_create: function( type, config ) {
+	_create: function( type, config ){
 		var node;
 
 		if (type === 'text') {
@@ -37,26 +37,26 @@ var html = module.exports = extend(common, {
 		return node.outerHTML;
 	},
 
-	replace: function( node, replaceWith ) {
+	replace: function( node, replaceWith ){
 		if (!node.parentNode)
 			return;
 
 		node.parentNode.replaceChild(replaceWith, node);
 	},
 
-	children: function( node ) {
+	children: function( node ){
 		return node.childNodes;
 	},
 
-	firstChild: function( node ) {
+	firstChild: function( node ){
 		return node.firstChild;
 	},
 
-	lastChild: function( node ) {
+	lastChild: function( node ){
 		return node.lastChild;
 	},
 
-	empty: function( node ) {
+	empty: function( node ){
 		if (node.textContent)
 			node.textContent = null;
 
@@ -68,7 +68,7 @@ var html = module.exports = extend(common, {
 		return node.parentNode;
 	},
 
-	prependChild: function( node, childNode ) {
+	prependChild: function( node, childNode ){
 		var firstChild = html.firstChild(node);
 
 		if (firstChild)
@@ -77,11 +77,11 @@ var html = module.exports = extend(common, {
 		return node.appendChild(childNode);
 	},
 
-	appendChild: function( node, childNode ) {
+	appendChild: function( node, childNode ){
 		return node.appendChild(childNode);
 	},
 
-	removeChild: function( node, childNode ) {
+	removeChild: function( node, childNode ){
 		return node.removeChild(childNode);
 	},
 
@@ -89,30 +89,30 @@ var html = module.exports = extend(common, {
 		return node.parentNode && node.parentNode.removeChild(node);
 	},
 
-	getText: function( node ) {
+	getText: function( node ){
 		return node.textContent;
 	},
 
-	setText: function( node, text ) {
+	setText: function( node, text ){
 		return node.textContent = text;
 	},
 
-	getAttribute: function( node, attr ) {
+	getAttribute: function( node, attr ){
 		return node.getAttribute(attr);
 	},
 
-	setAttribute: function( node, attr, value ) {
+	setAttribute: function( node, attr, value ){
 		if (!value && html.booleanAttribs[attr])
 			return html.removeAttribute(node, attr);
 		else
 			return node.setAttribute(attr, value);
 	},
 
-	removeAttribute: function( node, attr ) {
+	removeAttribute: function( node, attr ){
 		return node.removeAttribute(attr);
 	},
 
-	addClass: function( node, className ) {
+	addClass: function( node, className ){
 		if (html.isNodes(node))
 			Array.prototype.forEach.call(node, function( node ){
 				html.addClass(node, className);
@@ -125,7 +125,7 @@ var html = module.exports = extend(common, {
 			node.classList.add(className);
 	},
 
-	removeClass: function( node, className ) {
+	removeClass: function( node, className ){
 		if (html.isNodes(node))
 			Array.prototype.forEach.call(node, function( node ){
 				html.removeClass(node, className);
@@ -154,11 +154,11 @@ var html = module.exports = extend(common, {
 			return node.style;
 	},
 
-	getValue: function( node ) {
+	getValue: function( node ){
 		return node.value;
 	},
 
-	_setValue: function( node, value ) {
+	_setValue: function( node, value ){
 		return node.value = value;
 	},
 
@@ -170,7 +170,7 @@ var html = module.exports = extend(common, {
 		return node.checked = !!value;
 	},
 
-	addEventListener: function( node, event, fn ) {
+	addEventListener: function( node, event, fn ){
 		if (html.isNodes(node)) {
 			Array.prototype.forEach.call(node, function( node ){
 				html.addEventListener(node, event, fn);
@@ -183,7 +183,7 @@ var html = module.exports = extend(common, {
 			node.addEventListener(event, fn);
 	},
 
-	removeEventListener: function( node, event, fn ) {
+	removeEventListener: function( node, event, fn ){
 		if (html.isNodes(node)) {
 			Array.prototype.forEach.call(node, function( node ){
 				html.removeEventListener(node, event, fn);
@@ -196,7 +196,7 @@ var html = module.exports = extend(common, {
 			node.removeEventListener(event, fn);
 	},
 
-	parseString: function( htmlString, options ) {
+	parseString: function( htmlString, options ){
 		// fragments does not support innerHtml
 		var host = html.create('tag', { name: 'div' });
 
@@ -217,7 +217,7 @@ var html = module.exports = extend(common, {
 		return fragment;
 	},
 
-	findOne: function( query, nodes ) {
+	findOne: function( query, nodes ){
 		if (!nodes)
 			return document.querySelector(query);
 
@@ -227,7 +227,7 @@ var html = module.exports = extend(common, {
 			return nodes.reduce(function( r, node ){ r.push(html.findOne(query, node)); }, []);
 	},
 
-	findAll: function( query, nodes ) {
+	findAll: function( query, nodes ){
 		if (!nodes)
 			return document.querySelectorAll(query);
 
@@ -237,19 +237,19 @@ var html = module.exports = extend(common, {
 			return nodes.reduce(function( r, node ){ Array.prototype.push.apply(r, html.findAll(query, node)); }, []);
 	},
 
-	matches: function( node, selector ) {
+	matches: function( node, selector ){
 		return (node.matches || node.matchesSelector || node.msMatchesSelector || node.mozMatchesSelector || node.webkitMatchesSelector || node.oMatchesSelector).call(node, selector);
 	},
 
-	isNodes: function( nodes ) {
+	isNodes: function( nodes ){
 		return Array.isArray(nodes) || nodes instanceof NodeList;
 	},
 
-	typeOf: function ( node ) {
+	typeOf: function( node ){
 		return nodeTypeMap[node.nodeType] || html.type.tag;
 	},
 
-	nameOf: function ( node ) {
+	nameOf: function( node ){
 		return node.nodeName.toLowerCase();
 	},
 

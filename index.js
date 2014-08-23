@@ -1,12 +1,12 @@
 'use strict';
 
-var htmlparser	= require('htmlparser2'),
-	domUtils	= require('domutils'),
-	Promise		= require('bluebird'),
-	CSSselect	= require('CSSselect'),
-	fs			= require('fs'),
-	extend		= require('extend'),
-	removeValue	= require('remove-value');
+var fs = require('fs');
+var htmlparser = require('htmlparser2');
+var domUtils = require('domutils');
+var Promise = require('bluebird');
+var CSSselect = require('CSSselect');
+var extend = require('extend');
+var removeValue = require('remove-value');
 
 Promise.promisifyAll(fs);
 
@@ -14,7 +14,7 @@ var common = require('./common');
 
 var html = module.exports = extend(common, {
 
-	parse: function( stream, cb, options, parserOptions ) {
+	parse: function( stream, cb, options, parserOptions ){
 		var handler = new htmlparser.DomHandler(options),
 			parser = new htmlparser.Parser(handler, parserOptions);
 
@@ -24,7 +24,7 @@ var html = module.exports = extend(common, {
 		});
 	},
 
-	parseString: function( htmlString, options, parserOptions ) {
+	parseString: function( htmlString, options, parserOptions ){
 		var handler = new htmlparser.DomHandler(options),
 			parser = new htmlparser.Parser(handler, parserOptions);
 
@@ -38,24 +38,27 @@ var html = module.exports = extend(common, {
 				return handler.dom;
 		}
 
-		return html.create('fragment', { children: handler.dom });
+		return html.create('fragment', {
+			children: handler.dom,
+		});
 	},
 
-	parseFile: function( file, options, parserOptions, cb ) {
+	parseFile: function( file, options, parserOptions, cb ){
 		return fs.readFileAsync(file, 'utf8').then(function( markup ){
 			return html.parseString(markup, options, parserOptions);
-		}).nodeify(cb);
+		})
+			.nodeify(cb);
 	},
 
-	parseFileSync: function( file, options, parserOptions ) {
+	parseFileSync: function( file, options, parserOptions ){
 		return html.parseString(fs.readFileSync(file, 'utf8'), options, parserOptions);
 	},
 
-	getInner: function ( dom ) {
+	getInner: function( dom ){
 		return dom.children ? dom.children.map(html.getOuter, html).join('') : '';
 	},
 
-	getOuter: function( dom ) {
+	getOuter: function( dom ){
 		if (dom.type === 'text')
 			return dom.data;
 
@@ -96,11 +99,11 @@ var html = module.exports = extend(common, {
 			return ret + '>' + html.getInner(dom) + '</' + dom.name + '>';
 	},
 
-	getAttribute: function ( node, attr ) {
+	getAttribute: function( node, attr ){
 		return node.attribs && node.attribs[attr] || null;
 	},
 
-	setAttribute: function ( node, attr, value ) {
+	setAttribute: function( node, attr, value ){
 		if (!node.attribs)
 			node.attribs = {};
 
@@ -110,7 +113,7 @@ var html = module.exports = extend(common, {
 		return node.attribs[attr] = value;
 	},
 
-	removeAttribute: function ( node, attr ) {
+	removeAttribute: function( node, attr ){
 		return !node.attribs || delete node.attribs[attr];
 	},
 
@@ -153,7 +156,7 @@ var html = module.exports = extend(common, {
 		return html.getAttribute(node, 'checked', !!value);
 	},
 
-	getText: function( node ) {
+	getText: function( node ){
 		if (node.type === 'text')
 			return html.unescape(node.data);
 		else if (node.children)
@@ -162,18 +165,20 @@ var html = module.exports = extend(common, {
 			return '';
 	},
 
-	setText: function( node, text ) {
+	setText: function( node, text ){
 		if (node.type === 'text')
 			node.data = html.escape(text);
 		else if (node.children && node.children.length)
 			node.children.forEach(function( node ){ html.setText(node, text); }, html);
 		else
-			node.children = [ html.create('text', { data: html.escape(text) }) ];
+			node.children = [ html.create('text', {
+				data: html.escape(text),
+			}) ];
 
 		return text;
 	},
 
-	splice: function( nodes, index, howMany, newNodes ) {
+	splice: function( nodes, index, howMany, newNodes ){
 		if (index >= nodes.length)
 			throw 'Index greater than or equal to length';
 
@@ -202,11 +207,11 @@ var html = module.exports = extend(common, {
 			after.prev = newNodes[newNodes.length-1] || null;
 	},
 
-	firstChild: function( node ) {
+	firstChild: function( node ){
 		return node.children[0];
 	},
 
-	lastChild: function( node ) {
+	lastChild: function( node ){
 		return node.children[node.children.length - 1];
 	},
 
@@ -220,17 +225,19 @@ var html = module.exports = extend(common, {
 	prepend: domUtils.prepend,
 	remove: domUtils.remove,
 
-	empty: function( node ) {
+	empty: function( node ){
 		node.children = [];
 
 		if (node.type === 'text')
 			node.data = '';
 	},
 
-	_create: function( type, config ) {
+	_create: function( type, config ){
 		if (!html.type[type]) {
 			if (!config)
-				config = { name: type };
+				config = {
+					name: type,
+				};
 			else
 				config.name = type;
 
@@ -248,7 +255,7 @@ var html = module.exports = extend(common, {
 		}, config);
 	},
 
-	addEventListener: function( node, event, fn ) {
+	addEventListener: function( node, event, fn ){
 		if (!node.listeners) {
 			node.listeners = {};
 			node.listeners[event] = [ fn ];
@@ -259,7 +266,7 @@ var html = module.exports = extend(common, {
 		}
 	},
 
-	removeEventListener: function( node, event, fn ) {
+	removeEventListener: function( node, event, fn ){
 		if (node.listeners && node.listeners[event])
 			removeValue(node.listeners[event], fn, 1);
 	},
@@ -269,11 +276,11 @@ var html = module.exports = extend(common, {
 	selectorCompile: CSSselect.compile,
 	matches: CSSselect.is,
 
-	typeOf: function ( node ) {
+	typeOf: function( node ){
 		return node.type;
 	},
 
-	nameOf: function ( node ) {
+	nameOf: function( node ){
 		return node.name.toLowerCase();
 	},
 
