@@ -4,7 +4,7 @@ var extend = require('extend');
 
 var common = require('./common');
 
-var html = module.exports = extend({}, common, {
+var html = module.exports = extend(common, {
 
 	_create: function( type, config ) {
 		var node;
@@ -102,8 +102,8 @@ var html = module.exports = extend({}, common, {
 	},
 
 	setAttribute: function( node, attr, value ) {
-		if (!value && this.booleanAttribs[attr])
-			return this.removeAttribute(node, attr);
+		if (!value && html.booleanAttribs[attr])
+			return html.removeAttribute(node, attr);
 		else
 			return node.setAttribute(attr, value);
 	},
@@ -142,7 +142,7 @@ var html = module.exports = extend({}, common, {
 		if (typeof name === 'object')
 			return extend(node.style, name);
 		else if (!value)
-			return this.setAttribute('style', name);
+			return html.setAttribute('style', name);
 		else
 			return node.style[name] = value;
 	},
@@ -246,7 +246,7 @@ var html = module.exports = extend({}, common, {
 	},
 
 	typeOf: function ( node ) {
-		return nodeTypeMap[node.nodeType] || this.type.tag;
+		return nodeTypeMap[node.nodeType] || html.type.tag;
 	},
 
 	nameOf: function ( node ) {

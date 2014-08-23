@@ -8,15 +8,15 @@ var html = module.exports = {
 
 	create: function( type, config ) {
 		if (!type)
-			return this._create('fragment');
+			return html._create('fragment');
 
 		if (typeof type === 'object') {
 			config = type;
 			config.name = config.name || 'div';
-			return this._create('tag', config);
+			return html._create('tag', config);
 		}
 
-		return this._create(type, config);
+		return html._create(type, config);
 	},
 
 	// node(s) from HTML
@@ -32,11 +32,11 @@ var html = module.exports = {
 		if (!Array.isArray(nodes))
 			nodes = [ nodes ];
 
-		return nodes.map(this.getOuter, this).join('');
+		return nodes.map(html.getOuter, html).join('');
 	},
 
 	getHtml: function( nodes ) {
-		return this.render(nodes);
+		return html.render(nodes);
 	},
 
 	getInner: notImplemented,	// get inner HTML of a single node
@@ -64,11 +64,11 @@ var html = module.exports = {
 	empty: notImplemented,
 
 	appendChildren: function( node, childNodes ){
-		Array.prototype.forEach.call(childNodes, this.appendChild.bind(this, node));
+		Array.prototype.forEach.call(childNodes, html.appendChild.bind(html, node));
 	},
 
 	prependChildren: function( node, childNodes ){
-		Array.prototype.forEach.call(childNodes, this.prependChild.bind(this, node));
+		Array.prototype.forEach.call(childNodes, html.prependChild.bind(html, node));
 	},
 
 	prependChild: notImplemented,
@@ -79,9 +79,9 @@ var html = module.exports = {
 
 	text: function( node, value ){
 		if (typeof value === 'undefined')
-			return this.getText(node);
+			return html.getText(node);
 		else
-			return this.setText(node, value);
+			return html.setText(node, value);
 	},
 
 	getText: notImplemented,
@@ -99,7 +99,7 @@ var html = module.exports = {
 		var attributeNames = Object.keys(attributes);
 
 		for (var i = attributeNames.length-1;i > -1;i--)
-			this.setAttribute(attributeNames[i], attributes[attributeNames[i]]);
+			html.setAttribute(attributeNames[i], attributes[attributeNames[i]]);
 	},
 
 	// classes (special type of attribute)
@@ -111,15 +111,15 @@ var html = module.exports = {
 
 	value: function( node, value ){
 		if (value === undefined)
-			return this.getValue(node);
+			return html.getValue(node);
 		else
-			return this.setValue(node, value);
+			return html.setValue(node, value);
 	},
 
 	getValue: notImplemented,
 	setValue: function( node, value ) {
 		if (value instanceof Date) {
-			var type = this.getAttribute(node, 'type');
+			var type = html.getAttribute(node, 'type');
 
 			if (type === 'date')
 				value = toHtmlDate(value);
@@ -135,9 +135,9 @@ var html = module.exports = {
 
 	checked: function( node, value ){
 		if (value === undefined)
-			return this.getChecked(node);
+			return html.getChecked(node);
 		else
-			return this.setChecked(node, value);
+			return html.setChecked(node, value);
 	},
 
 	getChecked: notImplemented,
@@ -147,9 +147,9 @@ var html = module.exports = {
 
 	style: function( node, name, value ){
 		if (!value && typeof name !== 'object')
-			return this.getStyle(node, name);
+			return html.getStyle(node, name);
 		else
-			return this.setStyle(node, name, value);
+			return html.setStyle(node, name, value);
 	},
 
 	getStyle: notImplemented,
@@ -166,11 +166,11 @@ var html = module.exports = {
 	findAll: notImplemented,
 	selectorCompile: notImplemented,
 	matches: notImplemented,
-	is: function(){ return this.matches.call(this, arguments); },
+	is: function(){ return html.matches.call(html, arguments); },
 
 	closest: function( node, selector, context ){
-		for (var cNode = node;cNode && cNode !== context;cNode = this.parent(cNode)){
-			if (this.matches(cNode, selector))
+		for (var cNode = node;cNode && cNode !== context;cNode = html.parent(cNode)){
+			if (html.matches(cNode, selector))
 				return cNode;
 		}
 	},
@@ -182,7 +182,7 @@ var html = module.exports = {
 		return Array.isArray(nodes);
 	},
 
-	nodeType: function( node ){ return this.typeOf(node); },
+	nodeType: function( node ){ return html.typeOf(node); },
 	typeOf: notImplemented,
 	nameOf: notImplemented,
 
@@ -239,15 +239,14 @@ var html = module.exports = {
 	},
 
 	escape: function( text ){
-		var html = this;
 		return text.replace(/[&<>"']/g, function( text ){
 			return html.escapeCharacters[text];
 		});
 	},
 
 	unescape: function( text ){
-		for (var char in this.escapeCharacters)
-			text = text.replace(this.escapeCharacters[char], char);
+		for (var char in html.escapeCharacters)
+			text = text.replace(html.escapeCharacters[char], char);
 
 		return text;
 	},
@@ -260,9 +259,9 @@ function notImplemented(){
 
 function attribute( node, attr, value ){
 	if (value === undefined)
-		return this.getAttribute(node, attr);
+		return html.getAttribute(node, attr);
 	else
-		return this.setAttribute(node, attr, value);
+		return html.setAttribute(node, attr, value);
 }
 
 function pad2( num ){
