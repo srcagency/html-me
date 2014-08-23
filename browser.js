@@ -138,17 +138,20 @@ var html = module.exports = extend({}, common, {
 			node.classList.remove(className);
 	},
 
-	setStyle: function( node, style, value ){
-		if (typeof node === 'object')
-			return this.setstyles(node, style);
-
-		return node.style[style] = value;
+	setStyle: function( node, name, value ){
+		if (typeof name === 'object')
+			return extend(node.style, name);
+		else if (!value)
+			return this.setAttribute('style', name);
+		else
+			return node.style[name] = value;
 	},
 
-	setStyles: function( node, styles ){
-		var keys = Object.keys(styles);
-		for (var i = 0;i < keys.length;i++)
-			node.style[keys[i]] = styles[keys[i]];
+	getStyle: function( node, name ){
+		if (name)
+			return node.style[name];
+		else
+			return node.style;
 	},
 
 	getValue: function( node ) {

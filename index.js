@@ -122,6 +122,29 @@ var html = module.exports = extend({}, common, {
 		return this.setAttribute(node, 'value', value);
 	},
 
+	setStyle: function( node, name, value ){
+		if (typeof name === 'object' || value) {
+			var style = parseStyle(this.getAttribute(node, 'style'));
+
+			if (value)
+				style[name] = value;
+			else
+				extend(style, name);
+
+			this.setAttribute(node, 'style', renderStyle(style));
+
+			return value || name;
+		} else {
+			return this.setAttribute('style', name);
+		}
+	},
+
+	getStyle: function( node, name ){
+		var style = parseStyle(this.getAttribute(node, 'style'));
+
+		return name ? style[name] : style;
+	},
+
 	getChecked: function( node ){
 		return this.getAttribute(node, 'checked');
 	},
@@ -255,3 +278,29 @@ var html = module.exports = extend({}, common, {
 	},
 
 });
+
+function parseStyle( str ){
+	if (!str)
+		return {};
+
+	var style = {};
+	var pairs = str.split(';');
+	var pair;
+
+	for (var i = pairs.length - 1;i >= 0;i--) {
+		pair = pairs[i].split(/[\s]*:[\s]*/);
+		style[pair[0]] = pair[1];
+	}
+
+	return style;
+}
+
+function renderStyle( style ){
+	var str = '';
+	var properties = Object.keys(style);
+
+	for (var i = properties.length - 1;i >= 0;i--)
+		str += properties[i] + ':' + style[properties[i]] + ';';
+
+	return str;
+}

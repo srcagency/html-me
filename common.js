@@ -143,6 +143,18 @@ var html = module.exports = {
 	getChecked: notImplemented,
 	setChecked: notImplemented,
 
+	// style (special type of attribute)
+
+	style: function( node, name, value ){
+		if (!value && typeof name !== 'object')
+			return this.getStyle(node, name);
+		else
+			return this.setStyle(node, name, value);
+	},
+
+	getStyle: notImplemented,
+	setStyle: notImplemented,
+
 	// events
 
 	addEventListener: notImplemented,
