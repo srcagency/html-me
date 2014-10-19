@@ -99,7 +99,7 @@ var html = module.exports = {
 		var attributeNames = Object.keys(attributes);
 
 		for (var i = attributeNames.length-1;i > -1;i--)
-			html.setAttribute(attributeNames[i], attributes[attributeNames[i]]);
+			html.setAttribute(node, attributeNames[i], attributes[attributeNames[i]]);
 	},
 
 	// classes (special type of attribute)
