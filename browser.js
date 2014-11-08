@@ -1,6 +1,7 @@
 'use strict';
 
 var extend = require('extend');
+var removeValue = require('remove-value');
 
 var common = require('./common');
 
@@ -121,7 +122,14 @@ var html = module.exports = extend(common, {
 			className.forEach(function( className ){
 				html.addClass(node, className);
 			});
-		else
+		else if (!node.classList) {
+			// IE9
+			var classes = html.getAttribute(node, 'class').split(' ');
+			if (!~classes.indexOf(className)) {
+				classes.push(className);
+				html.setAttribute(node, 'class', classes.join(' '));
+			}
+		} else
 			node.classList.add(className);
 	},
 
@@ -134,7 +142,17 @@ var html = module.exports = extend(common, {
 			className.forEach(function( className ){
 				html.removeClass(node, className);
 			});
-		else
+		else if (!node.classList) {
+			// IE9
+			html.setAttribute(
+				node,
+				'class',
+				removeValue(
+					html.getAttribute(node, 'class').split(' '),
+					className
+				).join(' ')
+			);
+		} else
 			node.classList.remove(className);
 	},
 
