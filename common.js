@@ -182,6 +182,8 @@ var html = module.exports = {
 		return Array.isArray(nodes);
 	},
 
+	isNode: notImplemented,
+
 	nodeType: function( node ){ return html.typeOf(node); },
 	typeOf: notImplemented,
 	nameOf: notImplemented,

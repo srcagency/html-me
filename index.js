@@ -276,6 +276,10 @@ var html = module.exports = extend(common, {
 	selectorCompile: CSSselect.compile,
 	matches: CSSselect.is,
 
+	isNode: function( node ){
+		return !!node.type;
+	},
+
 	typeOf: function( node ){
 		return node.type;
 	},

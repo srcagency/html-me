@@ -260,7 +260,11 @@ var html = module.exports = extend(common, {
 	},
 
 	isNodes: function( nodes ){
-		return Array.isArray(nodes) || nodes instanceof NodeList;
+		return nodes instanceof NodeList || (Array.isArray(nodes) && html.isNode(nodes[0]));
+	},
+
+	isNode: function( node ){
+		return node instanceof Node;
 	},
 
 	typeOf: function( node ){
