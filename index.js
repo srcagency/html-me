@@ -255,14 +255,21 @@ var html = module.exports = extend(common, {
 		}, config);
 	},
 
-	addEventListener: function( node, event, fn ){
+	addEventListener: function( node, event, fn, selector ){
 		if (!node.listeners) {
 			node.listeners = {};
 			node.listeners[event] = [ fn ];
 		} else if (!node.listeners[event]) {
 			node.listeners[event] = [ fn ];
 		} else if (!~node.listeners[event].indexOf(fn)) {
-			node.listeners[event].push(fn);
+			var receiver = fn;
+
+			if (selector)
+				receiver = function( e ){
+					fn.call(this, e, html.closest(e.target, selector));
+				};
+
+			node.listeners[event].push(receiver);
 		}
 	},
 

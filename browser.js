@@ -188,17 +188,25 @@ var html = module.exports = extend(common, {
 		return node.checked = !!value;
 	},
 
-	addEventListener: function( node, event, fn ){
+	addEventListener: function( node, event, fn, selector ){
 		if (html.isNodes(node)) {
 			Array.prototype.forEach.call(node, function( node ){
 				html.addEventListener(node, event, fn);
 			});
-		} else if (Array.isArray(event))
+		} else if (Array.isArray(event)) {
 			event.forEach(function( event ){
 				html.addEventListener(node, event, fn);
 			});
-		else
-			node.addEventListener(event, fn);
+		} else {
+			var receiver = fn;
+
+			if (selector)
+				receiver = function( e ){
+					fn.call(this, e, html.closest(e.target, selector));
+				};
+
+			node.addEventListener(event, receiver);
+		}
 	},
 
 	removeEventListener: function( node, event, fn ){
