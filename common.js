@@ -166,7 +166,7 @@ var html = module.exports = {
 	findAll: notImplemented,
 	selectorCompile: notImplemented,
 	matches: notImplemented,
-	is: function(){ return html.matches.call(html, arguments); },
+	is: function(){ return html.matches.apply(html, arguments); },
 
 	closest: function( node, selector, context ){
 		for (var cNode = node;cNode && cNode !== context;cNode = html.parent(cNode)){
