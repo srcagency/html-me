@@ -222,6 +222,10 @@ var html = module.exports = extend(common, {
 			node.removeEventListener(event, fn);
 	},
 
+	dispatchEvent: function( node, event ){
+		return node.dispatchEvent(event);
+	},
+
 	parseString: function( htmlString, options ){
 		// fragments does not support innerHtml
 		var host = html.create('tag', { name: 'div' });

@@ -159,6 +159,7 @@ var html = module.exports = {
 
 	addEventListener: notImplemented,
 	removeEventListener: notImplemented,
+	dispatchEvent: notImplemented,
 
 	// querying
 

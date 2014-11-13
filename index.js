@@ -278,6 +278,10 @@ var html = module.exports = extend(common, {
 			removeValue(node.listeners[event], fn, 1);
 	},
 
+	dispatchEvent: function( event ){
+		// noop (preventDefault, stopPropagation)
+	},
+
 	findOne: CSSselect.selectOne,
 	findAll: CSSselect.selectAll,
 	selectorCompile: CSSselect.compile,
