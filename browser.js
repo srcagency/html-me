@@ -256,7 +256,13 @@ var html = module.exports = extend(common, {
 	},
 
 	matches: function( node, selector ){
-		return (node.matches || node.matchesSelector || node.msMatchesSelector || node.mozMatchesSelector || node.webkitMatchesSelector || node.oMatchesSelector).call(node, selector);
+		return (node.matches
+			|| node.matchesSelector
+			|| node.msMatchesSelector
+			|| node.mozMatchesSelector
+			|| node.webkitMatchesSelector
+			|| node.oMatchesSelector
+		).call(node, selector);
 	},
 
 	isNodes: function( nodes ){
