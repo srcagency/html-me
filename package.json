@@ -12,25 +12,15 @@
 		"type": "git",
 		"url": "https://github.com/srcagency/js-html-me.git"
 	},
-	"licenses": [
-		{
-			"type": "MIT",
-			"url": "http://www.opensource.org/licenses/mit-license.php"
-		}
-	],
-	"author": {
-		"name": "Thomas Jensen",
-		"email": "thomas@src.agency",
-		"url": "http://src.agency"
-	},
+	"author": "Thomas Jensen <thomas@src.agency> (http://src.agency)",
 	"license": "MIT",
 	"dependencies": {
-		"htmlparser2": "~3.8.2",
-		"bluebird": "~2.3.11",
-		"domutils": "~1.5.0",
-		"CSSselect": "~0.7.0",
-		"extend": "~2.0.0",
-		"numpad": "~0.0.1",
-		"remove-value": "~1.0.0"
+		"htmlparser2": "^3.8.2",
+		"bluebird": "^2.3.11",
+		"domutils": "^1.5.0",
+		"CSSselect": "^0.7.0",
+		"extend": "^2.0.0",
+		"numpad": "^0.0.1",
+		"remove-value": "^1.0.0"
 	}
 }
