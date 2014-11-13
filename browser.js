@@ -289,3 +289,8 @@ nodeTypeMap[document.TEXT_NODE] = common.type.text;
 nodeTypeMap[document.COMMENT_NODE] = common.type.comment;
 nodeTypeMap[document.DOCUMENT_TYPE_NODE] = common.type.directive;
 nodeTypeMap[document.DOCUMENT_FRAGMENT_NODE] = common.type.fragment;
+
+if (document.closest !== undefined)
+	html.closest = function( node, selector ){
+		return node.closest(selector);
+	};
