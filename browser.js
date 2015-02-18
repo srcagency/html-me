@@ -1,11 +1,11 @@
 'use strict';
 
-var extend = require('extend');
+var assign = require('object-assign');
 var removeValue = require('remove-value');
 
 var common = require('./common');
 
-var html = module.exports = extend(common, {
+var html = module.exports = assign(common, {
 
 	_create: function( type, config ){
 		var node;
@@ -174,7 +174,7 @@ var html = module.exports = extend(common, {
 
 	setStyle: function( node, name, value ){
 		if (typeof name === 'object')
-			return extend(node.style, name);
+			return assign(node.style, name);
 		else if (!value)
 			return html.setAttribute('style', name);
 		else

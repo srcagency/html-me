@@ -5,13 +5,13 @@ var htmlparser = require('htmlparser2');
 var domUtils = require('domutils');
 var Promise = require('bluebird');
 var CSSselect = require('CSSselect');
-var extend = require('extend');
+var assign = require('object-assign');
 
 Promise.promisifyAll(fs);
 
 var common = require('./common');
 
-var html = module.exports = extend(common, {
+var html = module.exports = assign(common, {
 
 	parse: function( stream, cb, options, parserOptions ){
 		var handler = new htmlparser.DomHandler(options),
@@ -131,7 +131,7 @@ var html = module.exports = extend(common, {
 			if (value)
 				style[name] = value;
 			else
-				extend(style, name);
+				assign(style, name);
 
 			html.setAttribute(node, 'style', renderStyle(style));
 
@@ -241,7 +241,7 @@ var html = module.exports = extend(common, {
 			type = html.type.tag;
 		}
 
-		return extend({
+		return assign({
 			type: type,
 			attribs: {},
 			children: [],
