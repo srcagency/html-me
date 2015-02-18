@@ -167,8 +167,6 @@ var html = module.exports = extend(common, {
 	setText: function( node, text ){
 		if (node.type === 'text')
 			node.data = html.escape(text);
-		else if (node.children && node.children.length)
-			node.children.forEach(function( node ){ html.setText(node, text); }, html);
 		else
 			node.children = [ html.create('text', {
 				data: html.escape(text),
