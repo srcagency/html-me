@@ -218,7 +218,10 @@ var html = module.exports = extend(common, {
 
 			if (selector)
 				receiver = function( e ){
-					fn.call(this, e, html.closest(e.target, selector));
+					var closest = html.closest(e.target, selector, node);
+
+					if (closest)
+						fn.call(this, e, closest);
 				};
 
 			node.addEventListener(event, receiver);
