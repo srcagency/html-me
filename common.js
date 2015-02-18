@@ -242,12 +242,18 @@ var html = module.exports = {
 	},
 
 	escape: function( text ){
+		if (!text)
+			return '';
+
 		return text.replace(/[&<>"']/g, function( text ){
 			return html.escapeCharacters[text];
 		});
 	},
 
 	unescape: function( text ){
+		if (!text)
+			return '';
+
 		for (var char in html.escapeCharacters)
 			text = text.replace(html.escapeCharacters[char], char);
 
