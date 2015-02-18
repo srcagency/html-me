@@ -275,7 +275,9 @@ var html = module.exports = extend(common, {
 		if (!html.isNodes(nodes))
 			return nodes.querySelector(query);
 		else
-			return nodes.reduce(function( r, node ){ r.push(html.findOne(query, node)); }, []);
+			return nodes.reduce(function( r, node ){
+				r.push(html.findOne(query, node));
+			}, []);
 	},
 
 	findAll: function( query, nodes ){
@@ -285,7 +287,9 @@ var html = module.exports = extend(common, {
 		if (!html.isNodes(nodes))
 			return nodes.querySelectorAll(query);
 		else
-			return nodes.reduce(function( r, node ){ Array.prototype.push.apply(r, html.findAll(query, node)); }, []);
+			return nodes.reduce(function( r, node ){
+				Array.prototype.push.apply(r, html.findAll(query, node));
+			}, []);
 	},
 
 	matches: function( node, selector ){
