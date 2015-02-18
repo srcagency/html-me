@@ -225,6 +225,8 @@ var html = module.exports = extend(common, {
 				};
 
 			node.addEventListener(event, receiver);
+
+			return receiver;
 		}
 	},
 
