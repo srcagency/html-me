@@ -53,6 +53,14 @@ var html = module.exports = extend(common, {
 		node.parentNode.replaceChild(replaceWith, node);
 	},
 
+	prepend: function( node, previous ){
+	    node.parentNode.insertBefore(previous, node);
+	},
+
+	append: function( node, next ){
+	    node.parentNode.insertBefore(next, node.nextSibling);
+	},
+
 	children: function( node ){
 		return node.childNodes;
 	},
