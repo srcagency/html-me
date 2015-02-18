@@ -6,7 +6,6 @@ var domUtils = require('domutils');
 var Promise = require('bluebird');
 var CSSselect = require('CSSselect');
 var extend = require('extend');
-var removeValue = require('remove-value');
 
 Promise.promisifyAll(fs);
 
@@ -256,26 +255,11 @@ var html = module.exports = extend(common, {
 	},
 
 	addEventListener: function( node, event, fn, selector ){
-		if (!node.listeners) {
-			node.listeners = {};
-			node.listeners[event] = [ fn ];
-		} else if (!node.listeners[event]) {
-			node.listeners[event] = [ fn ];
-		} else if (!~node.listeners[event].indexOf(fn)) {
-			var receiver = fn;
-
-			if (selector)
-				receiver = function( e ){
-					fn.call(this, e, html.closest(e.target, selector));
-				};
-
-			node.listeners[event].push(receiver);
-		}
+		// events are noop on the server
 	},
 
 	removeEventListener: function( node, event, fn ){
-		if (node.listeners && node.listeners[event])
-			removeValue(node.listeners[event], fn, 1);
+		// events are noop on the server
 	},
 
 	dispatchEvent: function( event ){
