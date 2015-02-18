@@ -293,13 +293,20 @@ var html = module.exports = extend(common, {
 	},
 
 	matches: function( node, selector ){
-		return (node.matches
+		var matches = (node.matches
 			|| node.matchesSelector
 			|| node.msMatchesSelector
 			|| node.mozMatchesSelector
 			|| node.webkitMatchesSelector
-			|| node.oMatchesSelector
-		).call(node, selector);
+			|| node.oMatchesSelector);
+
+		if (!node)
+			throw new Error('Missing node');
+
+		if (!matches)
+			return false;
+
+		return matches.call(node, selector);
 	},
 
 	isNodes: function( nodes ){
