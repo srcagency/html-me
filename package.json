@@ -15,8 +15,8 @@
 	"license": "MIT",
 	"dependencies": {
 		"htmlparser2": "^3.8.2",
-		"bluebird": "^2.3.11",
-		"domutils": "^1.5.0",
+		"bluebird": "^2.9.10",
+		"domutils": "^1.5.1",
 		"CSSselect": "^0.7.0",
 		"object-assign": "^2.0.0",
 		"numpad": "^0.0.1",
