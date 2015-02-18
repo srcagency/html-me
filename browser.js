@@ -30,6 +30,14 @@ var html = module.exports = extend(common, {
 		return node;
 	},
 
+	setInner: function( node, html ){
+		return node.innerHTML = html;
+	},
+
+	setOuter: function( node, html ){
+		return node.outerHTML = html;
+	},
+
 	getInner: function( node ){
 		return node.innerHTML;
 	},
