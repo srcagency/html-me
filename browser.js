@@ -292,6 +292,14 @@ var html = module.exports = extend(common, {
 			}, []);
 	},
 
+	findProps: function( queries, node, amend ){
+		var result = amend || {};
+		var keys = Object.keys(queries);
+
+		for (var i = keys.length;i >= 0;i--)
+			result[keys[i]] = html.findOne(queries[keys[i]], node);
+	},
+
 	matches: function( node, selector ){
 		var matches = (node.matches
 			|| node.matchesSelector
